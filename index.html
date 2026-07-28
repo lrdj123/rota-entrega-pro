@@ -8,133 +8,240 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
         body { background: #f0f2f5; padding: 10px; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; text-align: center; }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .btn-primary { background: #667eea; color: white; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-danger { background: #dc3545; color: white; }
-        .btn-warning { background: #ffc107; color: black; }
-        .btn-whatsapp { background: #25D366; color: white; font-size: 18px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 10px; font-size: 16px; }
-        .entrega-item { background: #f8f9fa; border-left: 4px solid #667eea; padding: 15px; margin-bottom: 10px; border-radius: 8px; }
-        .entrega-item.entregue { border-left-color: #28a745; opacity: 0.7; }
-        .entrega-numero { background: #667eea; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
-        .assinatura-canvas { border: 2px solid #ddd; border-radius: 8px; width: 100%; height: 200px; background: white; }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; text-align: center;
+        }
+        .header h1 { font-size: 24px; }
+        .header p { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: opacity .2s; }
+        .btn:active { opacity: .8; }
+        .btn-primary   { background: #667eea; color: white; }
+        .btn-success   { background: #28a745; color: white; }
+        .btn-danger    { background: #dc3545; color: white; }
+        .btn-warning   { background: #ffc107; color: black; }
+        .btn-whatsapp  { background: #25D366; color: white; font-size: 17px; }
+        .btn-maps      { background: #4285F4; color: white; }
+        .btn-rota      { background: #FF6D00; color: white; }
+
+        input, select, textarea {
+            width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;
+            margin-bottom: 10px; font-size: 16px; font-family: Arial, sans-serif;
+        }
+        textarea { resize: vertical; }
+
+        .entrega-item {
+            background: #f8f9fa; border-left: 4px solid #667eea;
+            padding: 14px; margin-bottom: 10px; border-radius: 8px;
+        }
+        .entrega-item.entregue { border-left-color: #28a745; background: #f1fff4; }
+        .entrega-item.pulada   { border-left-color: #aaa; opacity: 0.7; }
+
+        .entrega-numero {
+            background: #667eea; color: white; min-width: 30px; height: 30px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; margin-right: 10px; font-size: 14px;
+        }
+        .entrega-numero.ok { background: #28a745; }
+
+        .assinatura-canvas {
+            border: 2px dashed #bbb; border-radius: 8px; width: 100%; height: 180px; background: #fafafa;
+            touch-action: none;
+        }
+
         #cameraInput { display: none; }
         .preview-img { max-width: 100%; border-radius: 8px; margin: 10px 0; }
-        .progresso { background: #e9ecef; border-radius: 10px; height: 20px; overflow: hidden; margin-bottom: 15px; }
-        .progresso-barra { background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold; }
-        .oculto { display: none; }
-        .nav-botoes { display: flex; gap: 10px; flex-wrap: wrap; }
-        .nav-botoes .btn { flex: 1; min-width: 120px; }
-        h2 { color: #333; margin-bottom: 15px; font-size: 18px; }
+
+        .progresso { background: #e9ecef; border-radius: 10px; height: 22px; overflow: hidden; margin-bottom: 4px; }
+        .progresso-barra {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%; transition: width 0.4s;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 12px; font-weight: bold; min-width: 36px;
+        }
+        .progresso-label { text-align: right; font-size: 12px; color: #888; margin-bottom: 10px; }
+
+        .oculto { display: none !important; }
+
+        .nav-botoes { display: flex; gap: 8px; flex-wrap: wrap; }
+        .nav-botoes .btn { flex: 1; min-width: 100px; }
+
+        h2 { color: #333; margin-bottom: 14px; font-size: 18px; }
+        h3 { color: #444; margin-bottom: 10px; font-size: 15px; }
+
         .status-ocr { background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 8px; margin-bottom: 10px; color: #856404; }
 
-        /* ===== MODAL WHATSAPP ===== */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); z-index: 1000; display: flex; align-items: center; justify-content: center; }
-        .modal-box { background: white; border-radius: 20px; padding: 28px 22px; margin: 20px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .modal-icone { font-size: 60px; margin-bottom: 8px; }
-        .modal-box h3 { font-size: 22px; margin-bottom: 8px; color: #222; }
-        .modal-box p { color: #666; margin-bottom: 18px; font-size: 15px; line-height: 1.5; }
-        .modal-endereco { background: #f0f2f5; border-radius: 10px; padding: 12px; margin-bottom: 18px; font-weight: bold; color: #333; font-size: 15px; }
+        .telefone-badge {
+            display: inline-block; background: #e8f5e9; color: #2e7d32;
+            border-radius: 6px; padding: 3px 8px; font-size: 13px; margin-top: 4px;
+        }
+
+        /* Alerta de assinatura pulsando */
+        .alerta-assinatura {
+            background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px;
+            padding: 12px; text-align: center; margin-bottom: 12px;
+            animation: pulsa 1.2s ease-in-out infinite;
+            font-weight: bold; color: #856404; font-size: 15px;
+        }
+        @keyframes pulsa {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: .7; transform: scale(1.02); }
+        }
+
+        /* Tag de entrega concluída */
+        .tag-concluida {
+            display: flex; align-items: center; gap: 8px;
+            background: #e8f5e9; border-radius: 8px; padding: 8px 12px; margin-top: 6px;
+            font-size: 13px; color: #2e7d32; font-weight: bold;
+        }
+        .tag-concluida .btn-share {
+            background: #25D366; color: white; border: none; border-radius: 8px;
+            padding: 6px 12px; font-size: 13px; font-weight: bold; cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Modal WhatsApp */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.65); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-box {
+            background: white; border-radius: 20px; padding: 28px 22px; margin: 18px;
+            max-width: 420px; width: 100%; text-align: center;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+        .modal-icone { font-size: 58px; margin-bottom: 8px; }
+        .modal-box h3 { font-size: 21px; margin-bottom: 8px; color: #222; }
+        .modal-box p { color: #666; margin-bottom: 16px; font-size: 15px; line-height: 1.5; }
+        .modal-endereco {
+            background: #f0f2f5; border-radius: 10px; padding: 12px;
+            margin-bottom: 18px; font-weight: bold; color: #333; font-size: 14px; text-align: left;
+        }
         .modal-botoes { display: flex; gap: 10px; flex-direction: column; }
+
+        /* Rota resumo */
+        .rota-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 10px 0; border-bottom: 1px solid #eee;
+        }
+        .rota-item:last-child { border-bottom: none; }
+        .rota-num { background: #667eea; color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; margin-top: 2px; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>📦 RotaEntrega Pro</h1>
-        <p>Otimizador de Rotas + Assinatura Digital</p>
+        <p>Rotas inteligentes · Assinatura digital · WhatsApp</p>
     </div>
 
-    <div class="card">
+    <!-- PROGRESSO -->
+    <div class="card" id="cardProgresso">
         <div class="progresso">
             <div class="progresso-barra" id="barraProgresso" style="width:0%">0/0</div>
         </div>
+        <div class="progresso-label" id="labelProgresso">Nenhuma entrega cadastrada</div>
     </div>
 
-    <!-- SEÇÃO 1: CAPTURA -->
+    <!-- ===== SEÇÃO 1: CAPTURA ===== -->
     <div class="card" id="secaoCaptura">
         <h2>📸 Capturar Endereços</h2>
         <input type="file" id="cameraInput" accept="image/*" capture="camera">
-        <button class="btn btn-primary" onclick="abrirCamera()">📷 Tirar Foto da Folha</button>
+        <button class="btn btn-primary" onclick="document.getElementById('cameraInput').click()">📷 Tirar Foto da Folha</button>
         <button class="btn btn-warning" onclick="document.getElementById('cameraInput').click()">🖼️ Escolher da Galeria</button>
         <div id="previewContainer"></div>
-        <div class="status-ocr oculto" id="statusOcr">🔍 Processando imagem...</div>
+        <div class="status-ocr oculto" id="statusOcr">🔍 Lendo endereços e telefones...</div>
         <div id="enderecosDetectados"></div>
-        <h3 style="margin-top:20px;">Ou digite manual:</h3>
-        <textarea id="enderecoManual" rows="3" placeholder="Rua, número, bairro, cidade"></textarea>
-        <button class="btn btn-success" onclick="adicionarEnderecoManual()">➕ Adicionar Endereço</button>
+        <h3 style="margin-top:16px;">✏️ Adicionar manualmente:</h3>
+        <input type="text" id="enderecoManual" placeholder="Endereço (Rua, número, bairro)">
+        <input type="tel"  id="telefoneManual" placeholder="Telefone (opcional)">
+        <button class="btn btn-success" onclick="adicionarEnderecoManual()">➕ Adicionar</button>
     </div>
 
-    <!-- SEÇÃO 2: LISTA -->
+    <!-- ===== SEÇÃO 2: LISTA ===== -->
     <div class="card" id="secaoEntregas">
         <h2>📋 Lista de Entregas</h2>
-        <div id="listaEntregas"></div>
-        <button class="btn btn-danger" onclick="limparTudo()">🗑️ Limpar Tudo</button>
+        <div id="listaEntregas"><p style="color:#999;">Nenhuma entrega cadastrada.</p></div>
+        <button class="btn btn-danger" style="margin-top:8px;" onclick="limparTudo()">🗑️ Limpar Tudo</button>
     </div>
 
-    <!-- SEÇÃO 3: ROTA -->
+    <!-- ===== SEÇÃO 3: ROTA ===== -->
     <div class="card" id="secaoRota">
         <h2>🗺️ Configurar Rota</h2>
         <label>Ponto de Partida:</label>
         <select id="pontoPartida">
             <option value="minhaLocalizacao">📍 Minha Localização Atual</option>
-            <option value="primeiro">Primeiro endereço da lista</option>
             <option value="custom">Endereço específico...</option>
         </select>
         <input type="text" id="enderecoPartida" class="oculto" placeholder="Digite o endereço de partida">
-        <button class="btn btn-primary" onclick="otimizarRota()">🧠 Otimizar Rota (Menor Caminho)</button>
-        <button class="btn btn-success" onclick="iniciarEntregas()">🚀 Iniciar Entregas</button>
+
+        <button class="btn btn-maps" onclick="verRotaCompleta()">🗺️ Ver Rota Completa no Maps</button>
+        <button class="btn btn-rota"  onclick="iniciarEntregas()">🚀 Iniciar Entregas</button>
     </div>
 
-    <!-- SEÇÃO 4: ENTREGA ATUAL -->
+    <!-- ===== SEÇÃO 4: ENTREGA ATUAL ===== -->
     <div class="card oculto" id="secaoEntregaAtual">
         <h2>🚚 Entrega Atual</h2>
-        <div class="entrega-item">
-            <div style="display:flex;align-items:center;">
+
+        <div class="entrega-item" id="cardEntregaAtual">
+            <div style="display:flex;align-items:flex-start;gap:10px;">
                 <div class="entrega-numero" id="numeroAtual">1</div>
                 <div>
-                    <strong id="enderecoAtual">Endereço...</strong>
-                    <p id="distanciaAtual" style="color:#666;font-size:14px;"></p>
+                    <strong id="enderecoAtual" style="font-size:16px;">—</strong>
+                    <p id="telefoneAtual" style="color:#2e7d32;font-size:14px;margin-top:4px;"></p>
+                    <p id="distanciaAtual" style="color:#888;font-size:13px;margin-top:2px;"></p>
                 </div>
             </div>
         </div>
+
         <div class="nav-botoes">
             <button class="btn btn-primary" onclick="abrirNavegacao('google')">🗺️ Google Maps</button>
             <button class="btn btn-success" onclick="abrirNavegacao('waze')">🚗 Waze</button>
         </div>
-        <h3 style="margin-top:20px;">✍️ Assinatura do Cliente:</h3>
+
+        <!-- Alerta pulsante de assinatura -->
+        <div class="alerta-assinatura">
+            ✍️ LEMBRE-SE: Pegue a assinatura do cliente!
+        </div>
+
+        <h3>✍️ Assinatura do Cliente:</h3>
         <canvas id="canvasAssinatura" class="assinatura-canvas"></canvas>
-        <div class="nav-botoes" style="margin-top:10px;">
+        <div class="nav-botoes" style="margin-top:8px;">
             <button class="btn btn-warning" onclick="limparAssinatura()">🔄 Limpar</button>
             <button class="btn btn-success" onclick="salvarAssinatura()">💾 Salvar Assinatura</button>
         </div>
-        <button class="btn btn-success" style="margin-top:20px;" onclick="darBaixa()">✅ DAR BAIXA + Próxima Entrega</button>
-        <button class="btn btn-danger" onclick="pularEntrega()">⏭️ Pular Esta</button>
+
+        <button class="btn btn-success" style="margin-top:16px;font-size:18px;" onclick="darBaixa()">
+            ✅ DAR BAIXA
+        </button>
+        <button class="btn btn-danger" onclick="pularEntrega()">⏭️ Pular Esta Entrega</button>
     </div>
 
-    <!-- SEÇÃO 5: RESUMO -->
+    <!-- ===== SEÇÃO 5: RESUMO ===== -->
     <div class="card oculto" id="secaoResumo">
-        <h2>🎉 Entregas Concluídas!</h2>
+        <h2>🎉 Rota Finalizada!</h2>
         <div id="resumoEntregas"></div>
-        <button class="btn btn-primary" onclick="novaRota()">🔄 Nova Rota</button>
+        <button class="btn btn-primary" style="margin-top:14px;" onclick="novaRota()">🔄 Nova Rota</button>
     </div>
 
-    <!-- ===== MODAL: COMPARTILHAR WHATSAPP ===== -->
+    <!-- ===== MODAL WHATSAPP ===== -->
     <div class="modal-overlay oculto" id="modalWhatsapp">
         <div class="modal-box">
             <div class="modal-icone">✅</div>
             <h3>Entrega Concluída!</h3>
             <div class="modal-endereco" id="modalEndereco"></div>
-            <p>Deseja enviar um comprovante desta entrega pelo <strong>WhatsApp</strong> para o dono?</p>
+            <p>Compartilhar comprovante pelo <strong>WhatsApp</strong> com o dono?</p>
             <div class="modal-botoes">
                 <button class="btn btn-whatsapp" onclick="compartilharWhatsApp()">
                     📲 Sim, enviar pelo WhatsApp
                 </button>
                 <button class="btn btn-primary" onclick="fecharModalEProximo()">
-                    ⏭️ Não, ir para próxima
+                    ⏭️ Não, próxima entrega
                 </button>
             </div>
         </div>
@@ -142,247 +249,474 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
     <script>
-        let entregas = [], entregaAtual = 0;
-        let canvas, ctx, desenhando = false;
-        let assinaturas = {};
-        let entregaParaCompartilhar = null;
+    // ==================== DADOS ====================
+    let entregas = [];
+    let entregaAtual = 0;
+    let assinaturas = {};
+    let entregaParaCompartilhar = null;
+    let alertaAssinaturaInterval = null;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            inicializarCanvas();
-            carregarDados();
-            document.getElementById('cameraInput').addEventListener('change', processarImagem);
-            setTimeout(() => falar("Bem-vindo ao Rota Entrega Pro. Tire uma foto da folha de endereços para começar."), 1000);
+    // Canvas
+    let canvas, ctx, desenhando = false;
+
+    // ==================== INIT ====================
+    document.addEventListener('DOMContentLoaded', () => {
+        inicializarCanvas();
+        carregarDados();
+        document.getElementById('cameraInput').addEventListener('change', processarImagem);
+        document.getElementById('pontoPartida').addEventListener('change', function() {
+            document.getElementById('enderecoPartida').classList.toggle('oculto', this.value !== 'custom');
         });
+        setTimeout(() => falar('Bem-vindo ao Rota Entrega Pro. Adicione os endereços para começar.'), 800);
+    });
 
-        function abrirCamera() { document.getElementById('cameraInput').click(); }
+    // ==================== OCR ====================
+    async function processarImagem(e) {
+        const arquivo = e.target.files[0];
+        if (!arquivo) return;
 
-        async function processarImagem(e) {
-            const arquivo = e.target.files[0];
-            if (!arquivo) return;
-            const reader = new FileReader();
-            reader.onload = ev => {
-                const img = document.createElement('img');
-                img.src = ev.target.result; img.className = 'preview-img';
-                document.getElementById('previewContainer').innerHTML = '';
-                document.getElementById('previewContainer').appendChild(img);
-            };
-            reader.readAsDataURL(arquivo);
-            document.getElementById('statusOcr').classList.remove('oculto');
-            try {
-                const r = await Tesseract.recognize(arquivo, 'por', { logger: m => console.log(m) });
-                const linhas = r.data.text.split('\n').filter(l => l.trim().length > 10);
-                mostrarEnderecosDetectados(linhas);
-                falar("Detectados " + linhas.length + " possíveis endereços. Revise e adicione.");
-            } catch (err) {
-                alert('Erro ao processar imagem. Tente digitar manualmente.');
-            }
-            document.getElementById('statusOcr').classList.add('oculto');
+        // Preview
+        const reader = new FileReader();
+        reader.onload = ev => {
+            document.getElementById('previewContainer').innerHTML =
+                '<img src="' + ev.target.result + '" class="preview-img">';
+        };
+        reader.readAsDataURL(arquivo);
+
+        document.getElementById('statusOcr').classList.remove('oculto');
+        document.getElementById('enderecosDetectados').innerHTML = '';
+
+        try {
+            const resultado = await Tesseract.recognize(arquivo, 'por', { logger: m => console.log(m) });
+            const texto = resultado.data.text;
+            console.log('OCR texto:', texto);
+            parsearTextoOCR(texto);
+        } catch (err) {
+            console.error(err);
+            alert('Erro ao ler imagem. Adicione manualmente.');
         }
+        document.getElementById('statusOcr').classList.add('oculto');
+    }
 
-        function mostrarEnderecosDetectados(linhas) {
-            const c = document.getElementById('enderecosDetectados');
-            c.innerHTML = '<h3>Endereços detectados:</h3>';
-            linhas.forEach(linha => {
+    function parsearTextoOCR(texto) {
+        const linhas = texto.split('\n').map(l => l.trim()).filter(l => l.length > 5);
+
+        // Regex para telefones brasileiros
+        const reTel = /(\(?\d{2}\)?\s?[\d\s\-]{8,10})/g;
+        // Regex para detectar endereço (tem número + nome de rua)
+        const reEnd = /\b(rua|av(enida)?|r\.|al(ameda)?|est(rada)?|trav(essa)?|pc|praça|rod(ovia)?)\b/i;
+
+        const container = document.getElementById('enderecosDetectados');
+        container.innerHTML = '<h3 style="margin-bottom:8px;">Detectado na foto:</h3>';
+
+        let endAtual = '';
+        let telAtual = '';
+        let count = 0;
+
+        for (const linha of linhas) {
+            const telMatch = linha.match(reTel);
+            if (telMatch) {
+                telAtual = telMatch[0].replace(/\s/g,'');
+            } else if (reEnd.test(linha) || /^\d+\s/.test(linha)) {
+                if (endAtual) {
+                    adicionarCardOCR(container, endAtual, telAtual);
+                    telAtual = '';
+                    count++;
+                }
+                endAtual = linha;
+            } else if (endAtual && linha.length > 3 && !/^\d{5}-?\d{3}$/.test(linha)) {
+                // continua o endereço (bairro, cidade)
+                endAtual += ', ' + linha;
+            }
+        }
+        if (endAtual) { adicionarCardOCR(container, endAtual, telAtual); count++; }
+
+        if (count === 0) {
+            // fallback: mostra linhas para o usuário escolher
+            container.innerHTML += '<p style="color:#888;font-size:13px;">Nenhum endereço reconhecido automaticamente. Escolha abaixo:</p>';
+            linhas.filter(l => l.length > 8).forEach(linha => {
                 const div = document.createElement('div');
-                div.style.cssText = 'background:#e3f2fd;padding:10px;margin:5px 0;border-radius:5px;';
-                const btn = document.createElement('button');
-                btn.className = 'btn btn-success'; btn.style.padding = '8px';
-                btn.textContent = '✓ Usar este';
-                btn.onclick = () => adicionarEndereco(linha);
-                div.innerHTML = '<p>' + linha + '</p>';
-                div.appendChild(btn);
-                c.appendChild(div);
+                div.style.cssText = 'background:#e3f2fd;padding:10px;margin:5px 0;border-radius:8px;display:flex;gap:8px;align-items:center;';
+                div.innerHTML = '<span style="flex:1;font-size:14px;">' + linha + '</span>' +
+                    '<button class="btn btn-success" style="width:auto;padding:8px 14px;margin:0;" onclick="adicionarEndereco(\''+linha.replace(/'/g,"\\'")+"','');\">✓</button>";
+                container.appendChild(div);
             });
         }
 
-        function adicionarEndereco(endereco) {
-            entregas.push({ id: Date.now(), endereco, status: 'pendente', assinatura: null, ordem: entregas.length + 1 });
-            salvarDados(); atualizarLista();
-            falar("Endereço " + entregas.length + " adicionado.");
-        }
+        falar('Leitura concluída. Verifique os endereços detectados.');
+    }
 
-        function adicionarEnderecoManual() {
-            const input = document.getElementById('enderecoManual');
-            const endereco = input.value.trim();
-            if (!endereco) { alert('Digite um endereço'); return; }
-            adicionarEndereco(endereco); input.value = '';
-        }
+    function adicionarCardOCR(container, endereco, telefone) {
+        const div = document.createElement('div');
+        div.style.cssText = 'background:#e8f5e9;padding:12px;margin:6px 0;border-radius:10px;';
+        div.innerHTML =
+            '<p style="font-weight:bold;font-size:15px;">📍 ' + endereco + '</p>' +
+            (telefone ? '<p style="color:#2e7d32;font-size:13px;margin-top:4px;">📞 ' + telefone + '</p>' : '') +
+            '<button class="btn btn-success" style="margin-top:8px;padding:10px;" ' +
+            'onclick="adicionarEndereco(' + JSON.stringify(endereco) + ',' + JSON.stringify(telefone||'') + ')">✓ Usar este</button>';
+        container.appendChild(div);
+    }
 
-        function atualizarLista() {
-            const c = document.getElementById('listaEntregas');
-            if (!entregas.length) { c.innerHTML = '<p style="color:#666;">Nenhuma entrega cadastrada.</p>'; return; }
-            c.innerHTML = entregas.map((e, i) =>
-                '<div class="entrega-item ' + e.status + '">' +
-                '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-                '<div style="display:flex;align-items:center;">' +
-                '<div class="entrega-numero">' + (i+1) + '</div>' +
-                '<div><strong>' + e.endereco + '</strong>' +
-                '<p style="font-size:12px;color:#666;">' + (e.status === 'entregue' ? '✅ Entregue' : '⏳ Pendente') + '</p>' +
+    // ==================== ENDEREÇOS ====================
+    function adicionarEndereco(endereco, telefone) {
+        const id = Date.now() + Math.random();
+        entregas.push({ id, endereco, telefone: telefone||'', status: 'pendente', assinatura: null, horaEntrega: null });
+        salvarDados();
+        atualizarLista();
+        falar('Endereço ' + entregas.length + ' adicionado.');
+    }
+
+    function adicionarEnderecoManual() {
+        const end = document.getElementById('enderecoManual').value.trim();
+        const tel = document.getElementById('telefoneManual').value.trim();
+        if (!end) { alert('Digite o endereço'); return; }
+        adicionarEndereco(end, tel);
+        document.getElementById('enderecoManual').value = '';
+        document.getElementById('telefoneManual').value = '';
+    }
+
+    function removerEntrega(id) {
+        if (!confirm('Remover esta entrega?')) return;
+        entregas = entregas.filter(e => e.id !== id);
+        salvarDados(); atualizarLista();
+    }
+
+    function limparTudo() {
+        if (!confirm('Limpar TODAS as entregas?')) return;
+        entregas = []; entregaAtual = 0; assinaturas = {};
+        salvarDados(); atualizarLista(); falar('Lista limpa.');
+    }
+
+    // ==================== LISTA ====================
+    function atualizarLista() {
+        const c = document.getElementById('listaEntregas');
+        if (!entregas.length) { c.innerHTML = '<p style="color:#999;">Nenhuma entrega cadastrada.</p>'; atualizarProgresso(); return; }
+
+        c.innerHTML = entregas.map((e, i) => {
+            const concluida = e.status === 'entregue';
+            const hora = concluida && e.horaEntrega ? new Date(e.horaEntrega).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
+            return '<div class="entrega-item ' + e.status + '">' +
+                '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
+                '<div style="display:flex;align-items:flex-start;gap:10px;flex:1;">' +
+                '<div class="entrega-numero' + (concluida?' ok':'') + '">' + (i+1) + '</div>' +
+                '<div style="flex:1;">' +
+                '<strong>' + e.endereco + '</strong>' +
+                (e.telefone ? '<p style="font-size:13px;color:#2e7d32;margin-top:3px;">📞 ' + e.telefone + '</p>' : '') +
+                '<p style="font-size:12px;color:#888;margin-top:3px;">' + (concluida ? '✅ Entregue às ' + hora : '⏳ Pendente') + '</p>' +
+                (concluida ? '<div class="tag-concluida">✅ Concluída' +
+                    '<button class="btn-share" onclick="compartilharEntregaLista(' + i + ')">📲 Compartilhar</button>' +
+                    '</div>' : '') +
                 '</div></div>' +
-                '<button class="btn btn-danger" style="width:auto;padding:8px 15px;" onclick="removerEntrega(' + e.id + ')">🗑️</button>' +
-                '</div></div>'
-            ).join('');
-            atualizarProgresso();
+                '<button class="btn btn-danger" style="width:auto;padding:7px 12px;margin:0;" onclick="removerEntrega(' + e.id + ')">🗑️</button>' +
+                '</div></div>';
+        }).join('');
+
+        atualizarProgresso();
+    }
+
+    function compartilharEntregaLista(idx) {
+        const e = entregas[idx];
+        const hora = e.horaEntrega ? new Date(e.horaEntrega).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
+        const msg =
+            '✅ *ENTREGA CONCLUÍDA*\n\n' +
+            '📦 Entrega *' + (idx+1) + ' de ' + entregas.length + '*\n' +
+            '📍 Endereço: ' + e.endereco + '\n' +
+            (e.telefone ? '📞 Telefone: ' + e.telefone + '\n' : '') +
+            '🕐 Horário: ' + hora + '\n\n' +
+            '_Enviado pelo RotaEntrega Pro_ 📲';
+        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+    }
+
+    // ==================== PROGRESSO ====================
+    function atualizarProgresso() {
+        const ent = entregas.filter(e => e.status === 'entregue').length;
+        const total = entregas.length;
+        const pct = total > 0 ? (ent / total * 100) : 0;
+        document.getElementById('barraProgresso').style.width = Math.max(pct, 5) + '%';
+        document.getElementById('barraProgresso').textContent = ent + '/' + total;
+        document.getElementById('labelProgresso').textContent =
+            total === 0 ? 'Nenhuma entrega cadastrada' :
+            ent === total ? '🎉 Todas as entregas concluídas!' :
+            ent + ' de ' + total + ' entregues — ' + (total-ent) + ' pendentes';
+    }
+
+    // ==================== VER ROTA ====================
+    function verRotaCompleta() {
+        if (!entregas.length) { alert('Adicione endereços primeiro'); return; }
+
+        let origem = '';
+        if (document.getElementById('pontoPartida').value === 'custom') {
+            origem = document.getElementById('enderecoPartida').value.trim();
         }
 
-        function removerEntrega(id) { entregas = entregas.filter(e => e.id !== id); salvarDados(); atualizarLista(); }
+        const pendentes = entregas.filter(e => e.status !== 'entregue');
+        if (!pendentes.length) { alert('Todas as entregas já foram concluídas!'); return; }
 
-        function limparTudo() {
-            if (!confirm('Limpar todas as entregas?')) return;
-            entregas = []; entregaAtual = 0; salvarDados(); atualizarLista(); falar('Lista limpa.');
-        }
+        // Google Maps URL com waypoints
+        const waypoints = pendentes.slice(0, -1).map(e => encodeURIComponent(e.endereco)).join('|');
+        const destino   = encodeURIComponent(pendentes[pendentes.length-1].endereco);
+        const org       = origem ? encodeURIComponent(origem) : 'My+Location';
 
-        function otimizarRota() {
-            if (entregas.length < 2) { alert('Adicione pelo menos 2 endereços'); return; }
-            falar("Rota otimizada para " + entregas.length + " entregas.");
-            alert('Rota otimizada! Clique em "Iniciar Entregas".');
-        }
+        let url = 'https://www.google.com/maps/dir/' + org + '/';
+        if (waypoints) url += pendentes.slice(0,-1).map(e => encodeURIComponent(e.endereco)).join('/') + '/';
+        url += destino;
 
-        function iniciarEntregas() {
-            if (!entregas.length) { alert('Adicione endereços primeiro'); return; }
-            entregaAtual = 0;
-            ['secaoCaptura','secaoEntregas','secaoRota'].forEach(id => document.getElementById(id).classList.add('oculto'));
-            document.getElementById('secaoEntregaAtual').classList.remove('oculto');
-            mostrarEntregaAtual();
-        }
+        window.open(url, '_blank');
+    }
 
-        function mostrarEntregaAtual() {
-            if (entregaAtual >= entregas.length) { mostrarResumo(); return; }
-            const e = entregas[entregaAtual];
-            document.getElementById('numeroAtual').textContent = entregaAtual + 1;
-            document.getElementById('enderecoAtual').textContent = e.endereco;
-            document.getElementById('distanciaAtual').textContent = 'Entrega ' + (entregaAtual+1) + ' de ' + entregas.length;
-            limparAssinatura();
-            setTimeout(() => falar('Entrega ' + (entregaAtual+1) + '. ' + e.endereco + '. Não esqueça de pegar a assinatura do cliente.'), 500);
-        }
+    // ==================== INICIAR ENTREGAS ====================
+    function iniciarEntregas() {
+        if (!entregas.length) { alert('Adicione endereços primeiro'); return; }
+        entregaAtual = 0;
+        ['secaoCaptura','secaoEntregas','secaoRota'].forEach(id => document.getElementById(id).classList.add('oculto'));
+        document.getElementById('secaoEntregaAtual').classList.remove('oculto');
+        mostrarEntregaAtual();
+        iniciarAlertaAssinatura();
+    }
 
-        function abrirNavegacao(app) {
-            const enc = encodeURIComponent(entregas[entregaAtual].endereco);
-            window.location.href = app === 'google'
-                ? 'https://www.google.com/maps/dir/?api=1&destination=' + enc
-                : 'https://waze.com/ul?q=' + enc + '&navigate=yes';
-        }
-
-        function inicializarCanvas() {
-            canvas = document.getElementById('canvasAssinatura');
-            ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth || 300;
-            canvas.height = canvas.offsetHeight || 200;
-            ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.lineCap = 'round';
-
-            canvas.addEventListener('mousedown', e => { desenhando = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
-            canvas.addEventListener('mousemove', e => { if (!desenhando) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
-            canvas.addEventListener('mouseup', () => desenhando = false);
-            canvas.addEventListener('touchstart', e => { e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mousedown', { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY })); });
-            canvas.addEventListener('touchmove', e => { e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mousemove', { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY })); });
-            canvas.addEventListener('touchend', () => desenhando = false);
-        }
-
-        function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
-        function limparAssinatura() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
-
-        function salvarAssinatura() {
-            assinaturas[entregas[entregaAtual].id] = canvas.toDataURL();
-            localStorage.setItem('assinaturas', JSON.stringify(assinaturas));
-            falar('Assinatura salva.'); alert('Assinatura salva!');
-        }
-
-        // ===== DAR BAIXA — abre modal WhatsApp antes de ir para próxima =====
-        function darBaixa() {
-            const id = entregas[entregaAtual].id;
-            if (!assinaturas[id]) {
-                falar('Atenção! Pegue a assinatura do cliente antes de dar baixa.');
-                if (!confirm('Sem assinatura detectada. Dar baixa mesmo assim?')) return;
+    // ==================== ALERTA DE ASSINATURA ====================
+    function iniciarAlertaAssinatura() {
+        pararAlertaAssinatura();
+        // Fala a cada 45 segundos enquanto estiver na tela de entrega
+        alertaAssinaturaInterval = setInterval(() => {
+            if (!document.getElementById('secaoEntregaAtual').classList.contains('oculto')) {
+                falar('Não esqueça de pegar a assinatura do cliente!');
             }
+        }, 45000);
+    }
 
-            entregas[entregaAtual].status = 'entregue';
-            entregas[entregaAtual].assinatura = assinaturas[id] || null;
-            entregas[entregaAtual].horaEntrega = new Date().toISOString();
-            salvarDados();
-            falar('Entrega ' + (entregaAtual + 1) + ' concluída!');
+    function pararAlertaAssinatura() {
+        if (alertaAssinaturaInterval) { clearInterval(alertaAssinaturaInterval); alertaAssinaturaInterval = null; }
+    }
 
-            // Prepara dados para o modal
-            entregaParaCompartilhar = {
-                numero: entregaAtual + 1,
-                total: entregas.length,
-                endereco: entregas[entregaAtual].endereco,
-                hora: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-            };
+    // ==================== ENTREGA ATUAL ====================
+    function mostrarEntregaAtual() {
+        // Pula entregues
+        while (entregaAtual < entregas.length && entregas[entregaAtual].status === 'entregue') entregaAtual++;
 
-            document.getElementById('modalEndereco').textContent = entregaParaCompartilhar.endereco;
-            document.getElementById('modalWhatsapp').classList.remove('oculto');
+        if (entregaAtual >= entregas.length) { mostrarResumo(); return; }
+
+        const e = entregas[entregaAtual];
+        const posicaoReal = entregas.findIndex((x, i) => i === entregaAtual) + 1;
+
+        document.getElementById('numeroAtual').textContent = posicaoReal;
+        document.getElementById('enderecoAtual').textContent  = e.endereco;
+        document.getElementById('telefoneAtual').textContent  = e.telefone ? '📞 ' + e.telefone : '';
+        document.getElementById('distanciaAtual').textContent = 'Entrega ' + posicaoReal + ' de ' + entregas.length;
+        limparAssinatura();
+
+        setTimeout(() => {
+            falar('Entrega ' + posicaoReal + '. ' + e.endereco + '. Não esqueça de pegar a assinatura do cliente!');
+        }, 400);
+    }
+
+    function abrirNavegacao(app) {
+        const enc = encodeURIComponent(entregas[entregaAtual].endereco);
+        window.location.href = app === 'google'
+            ? 'https://www.google.com/maps/dir/?api=1&destination=' + enc
+            : 'https://waze.com/ul?q=' + enc + '&navigate=yes';
+    }
+
+    // ==================== CANVAS ====================
+    function inicializarCanvas() {
+        canvas = document.getElementById('canvasAssinatura');
+        ctx    = canvas.getContext('2d');
+        setTimeout(() => {
+            canvas.width  = canvas.offsetWidth  || 300;
+            canvas.height = canvas.offsetHeight || 180;
+            ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        }, 100);
+
+        const start = e => { desenhando=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); };
+        const move  = e => { if(!desenhando) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); };
+        const stop  = ()  => desenhando=false;
+
+        canvas.addEventListener('mousedown', start);
+        canvas.addEventListener('mousemove', move);
+        canvas.addEventListener('mouseup',   stop);
+        canvas.addEventListener('touchstart', e => { e.preventDefault(); start({clientX:e.touches[0].clientX, clientY:e.touches[0].clientY}); }, {passive:false});
+        canvas.addEventListener('touchmove',  e => { e.preventDefault(); move ({clientX:e.touches[0].clientX, clientY:e.touches[0].clientY}); }, {passive:false});
+        canvas.addEventListener('touchend',   stop);
+    }
+
+    function getPos(e) {
+        const r = canvas.getBoundingClientRect();
+        const scaleX = canvas.width  / r.width;
+        const scaleY = canvas.height / r.height;
+        return { x: (e.clientX - r.left) * scaleX, y: (e.clientY - r.top) * scaleY };
+    }
+
+    function limparAssinatura() { if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    function salvarAssinatura() {
+        if (!entregas[entregaAtual]) return;
+        assinaturas[entregas[entregaAtual].id] = canvas.toDataURL();
+        localStorage.setItem('assinaturas', JSON.stringify(assinaturas));
+        falar('Assinatura salva!');
+        alert('✅ Assinatura salva!');
+    }
+
+    // ==================== DAR BAIXA ====================
+    function darBaixa() {
+        const id = entregas[entregaAtual].id;
+
+        if (!assinaturas[id]) {
+            falar('Atenção! Você não pegou a assinatura do cliente ainda!');
+            if (!confirm('⚠️ Assinatura não encontrada.\nDar baixa mesmo assim?')) return;
         }
 
-        function fecharModalEProximo() {
-            document.getElementById('modalWhatsapp').classList.add('oculto');
-            entregaAtual++;
-            mostrarEntregaAtual();
-        }
+        entregas[entregaAtual].status      = 'entregue';
+        entregas[entregaAtual].assinatura  = assinaturas[id] || null;
+        entregas[entregaAtual].horaEntrega = new Date().toISOString();
+        salvarDados();
 
-        // ===== COMPARTILHAR VIA WHATSAPP =====
-        function compartilharWhatsApp() {
-            if (!entregaParaCompartilhar) return;
-            const { numero, total, endereco, hora } = entregaParaCompartilhar;
+        falar('Ótimo! Entrega ' + (entregaAtual + 1) + ' concluída com sucesso!');
 
-            const mensagem =
-                '✅ *ENTREGA CONCLUÍDA*\n\n' +
-                '📦 Entrega *' + numero + ' de ' + total + '*\n' +
-                '📍 Endereço: ' + endereco + '\n' +
-                '🕐 Horário: ' + hora + '\n\n' +
-                '_Enviado pelo RotaEntrega Pro_ 📲';
+        const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        entregaParaCompartilhar = {
+            numero:   entregaAtual + 1,
+            total:    entregas.length,
+            endereco: entregas[entregaAtual].endereco,
+            telefone: entregas[entregaAtual].telefone,
+            hora
+        };
 
-            window.open('https://wa.me/?text=' + encodeURIComponent(mensagem), '_blank');
-            setTimeout(fecharModalEProximo, 500);
-        }
+        document.getElementById('modalEndereco').innerHTML =
+            '📦 Entrega <strong>' + entregaParaCompartilhar.numero + ' de ' + entregaParaCompartilhar.total + '</strong><br>' +
+            '📍 ' + entregaParaCompartilhar.endereco + '<br>' +
+            (entregaParaCompartilhar.telefone ? '📞 ' + entregaParaCompartilhar.telefone + '<br>' : '') +
+            '🕐 ' + hora;
 
-        function pularEntrega() { entregaAtual++; mostrarEntregaAtual(); }
+        document.getElementById('modalWhatsapp').classList.remove('oculto');
+        atualizarLista();
+    }
 
-        function mostrarResumo() {
-            document.getElementById('secaoEntregaAtual').classList.add('oculto');
-            document.getElementById('secaoResumo').classList.remove('oculto');
-            const ent = entregas.filter(e => e.status === 'entregue').length;
-            document.getElementById('resumoEntregas').innerHTML =
-                '<h3>📊 Resumo</h3>' +
-                '<p>✅ Entregues: ' + ent + ' de ' + entregas.length + '</p>' +
-                '<p>⏳ Pendentes: ' + (entregas.length - ent) + '</p>' +
-                '<p>🕐 Finalizado às: ' + new Date().toLocaleTimeString() + '</p>';
-            falar('Rota finalizada. ' + ent + ' entregas concluídas.');
-        }
+    function fecharModalEProximo() {
+        document.getElementById('modalWhatsapp').classList.add('oculto');
+        entregaAtual++;
+        mostrarEntregaAtual();
+    }
 
-        function novaRota() { location.reload(); }
+    function compartilharWhatsApp() {
+        if (!entregaParaCompartilhar) return;
+        const { numero, total, endereco, telefone, hora } = entregaParaCompartilhar;
 
-        function atualizarProgresso() {
-            const ent = entregas.filter(e => e.status === 'entregue').length;
-            const pct = entregas.length > 0 ? (ent / entregas.length * 100) : 0;
-            document.getElementById('barraProgresso').style.width = pct + '%';
-            document.getElementById('barraProgresso').textContent = ent + '/' + entregas.length;
-        }
+        const entregasFeitas = entregas.filter(e => e.status === 'entregue');
+        const listaFeitas = entregasFeitas.map((e, i) => {
+            const h = e.horaEntrega ? new Date(e.horaEntrega).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
+            return '   ' + (i+1) + '. ' + e.endereco + (h ? ' (' + h + ')' : '');
+        }).join('\n');
 
-        function falar(texto) {
-            if ('speechSynthesis' in window) {
-                const u = new SpeechSynthesisUtterance(texto);
-                u.lang = 'pt-BR'; u.rate = 1;
-                window.speechSynthesis.speak(u);
-            }
-        }
+        const msg =
+            '✅ *ENTREGA CONCLUÍDA* ✅\n\n' +
+            '📦 Entrega *' + numero + ' de ' + total + '*\n' +
+            '📍 Endereço: *' + endereco + '*\n' +
+            (telefone ? '📞 Telefone: ' + telefone + '\n' : '') +
+            '🕐 Horário: ' + hora + '\n\n' +
+            '━━━━━━━━━━━━━━━━\n' +
+            '📋 *Entregas concluídas até agora:*\n' + listaFeitas + '\n\n' +
+            '✅ ' + entregasFeitas.length + ' de ' + total + ' entregas concluídas\n' +
+            '━━━━━━━━━━━━━━━━\n' +
+            '_Enviado pelo RotaEntrega Pro_ 📲';
 
-        function salvarDados() {
-            localStorage.setItem('entregas', JSON.stringify(entregas));
-            localStorage.setItem('entregaAtual', entregaAtual);
-        }
+        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+        setTimeout(fecharModalEProximo, 500);
+    }
 
-        function carregarDados() {
+    function pularEntrega() {
+        entregas[entregaAtual].status = 'pulada';
+        salvarDados(); atualizarLista();
+        entregaAtual++;
+        mostrarEntregaAtual();
+    }
+
+    // ==================== RESUMO ====================
+    function mostrarResumo() {
+        pararAlertaAssinatura();
+        document.getElementById('secaoEntregaAtual').classList.add('oculto');
+        document.getElementById('secaoResumo').classList.remove('oculto');
+
+        const ent    = entregas.filter(e => e.status === 'entregue').length;
+        const puladas = entregas.filter(e => e.status === 'pulada').length;
+        const total  = entregas.length;
+
+        const lista = entregas.map((e, i) => {
+            const h = e.horaEntrega ? new Date(e.horaEntrega).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
+            const icone = e.status === 'entregue' ? '✅' : e.status === 'pulada' ? '⏭️' : '⏳';
+            return '<div class="rota-item">' +
+                '<div class="rota-num">' + (i+1) + '</div>' +
+                '<div>' +
+                '<p style="font-weight:bold;">' + icone + ' ' + e.endereco + '</p>' +
+                (e.telefone ? '<p style="font-size:13px;color:#2e7d32;">📞 ' + e.telefone + '</p>' : '') +
+                (h ? '<p style="font-size:12px;color:#888;">🕐 ' + h + '</p>' : '') +
+                (e.status === 'entregue' ?
+                    '<button onclick="compartilharEntregaLista(' + i + ')" class="btn-share" style="margin-top:6px;background:#25D366;color:white;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:bold;cursor:pointer;">📲 Compartilhar</button>'
+                    : '') +
+                '</div></div>';
+        }).join('');
+
+        document.getElementById('resumoEntregas').innerHTML =
+            '<div style="text-align:center;margin-bottom:16px;">' +
+            '<p style="font-size:28px;">🎉</p>' +
+            '<p style="font-size:18px;font-weight:bold;color:#28a745;">Rota finalizada!</p>' +
+            '<p style="color:#666;">✅ ' + ent + ' entregues · ⏭️ ' + puladas + ' puladas · 📦 ' + total + ' total</p>' +
+            '</div>' +
+            '<button class="btn btn-whatsapp" onclick="compartilharResumoCompleto()">📲 Enviar Resumo Completo pelo WhatsApp</button>' +
+            '<h3 style="margin:14px 0 8px;">Detalhes:</h3>' + lista;
+
+        falar('Rota finalizada! ' + ent + ' de ' + total + ' entregas concluídas.');
+    }
+
+    function compartilharResumoCompleto() {
+        const ent     = entregas.filter(e => e.status === 'entregue').length;
+        const total   = entregas.length;
+        const agora   = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+        const lista = entregas.map((e, i) => {
+            const h = e.horaEntrega ? new Date(e.horaEntrega).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
+            const icone = e.status === 'entregue' ? '✅' : e.status === 'pulada' ? '⏭️' : '⏳';
+            return icone + ' ' + (i+1) + '. ' + e.endereco + (h ? ' (' + h + ')' : '');
+        }).join('\n');
+
+        const msg =
+            '📦 *RELATÓRIO DE ENTREGAS*\n\n' +
+            '📊 Resultado: *' + ent + ' de ' + total + ' entregues*\n' +
+            '🕐 Finalizado às: ' + agora + '\n\n' +
+            '━━━━━━━━━━━━━━━━\n' +
+            lista + '\n' +
+            '━━━━━━━━━━━━━━━━\n\n' +
+            '_Enviado pelo RotaEntrega Pro_ 📲';
+
+        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+    }
+
+    function novaRota() { location.reload(); }
+
+    // ==================== VOZ ====================
+    function falar(texto) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(texto);
+        u.lang = 'pt-BR'; u.rate = 1;
+        window.speechSynthesis.speak(u);
+    }
+
+    // ==================== STORAGE ====================
+    function salvarDados() {
+        localStorage.setItem('entregas', JSON.stringify(entregas));
+        localStorage.setItem('entregaAtual', entregaAtual);
+    }
+
+    function carregarDados() {
+        try {
             const d = localStorage.getItem('entregas');
             const a = localStorage.getItem('entregaAtual');
             const s = localStorage.getItem('assinaturas');
             if (d) { entregas = JSON.parse(d); atualizarLista(); }
-            if (a) { entregaAtual = parseInt(a); }
-            if (s) { assinaturas = JSON.parse(s); }
-        }
-
-        document.getElementById('pontoPartida')?.addEventListener('change', function() {
-            document.getElementById('enderecoPartida').classList.toggle('oculto', this.value !== 'custom');
-        });
+            if (a) entregaAtual = parseInt(a) || 0;
+            if (s) assinaturas  = JSON.parse(s);
+        } catch(e) { console.error('Erro ao carregar:', e); }
+    }
     </script>
 </body>
 </html>
