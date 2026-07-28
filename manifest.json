@@ -1,15 +1,10 @@
 {
-  "name": "RotaEntrega Pro",
-  "short_name": "RotaEntrega",
-  "description": "Otimizador de rotas de entrega com OCR, assinatura digital e compartilhamento WhatsApp",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#667eea",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E",
-      "sizes": "any"
+    "name": "RotaEntrega Pro",
+    "short_name": "RotaEntrega",
+    "description": "Otimizador de rotas com OCR, assinatura digital e compartilhamento WhatsApp",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#667eea",
+    "theme_color": "#667eea",
+    "icons": [{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E","sizes":"any"}]
     }
-  ]
-}
